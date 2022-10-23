@@ -1,0 +1,119 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap');
+
+@layer base {
+ body {
+  font-family: theme("fontFamily.sans");
+  overflow: hidden;
+  overflow-y: scroll;
+  background-attachment: fixed;
+  color: theme("colors.light");
+  background-image: linear-gradient(to bottom, theme("colors.dark"), theme("colors.dark"), rgb(77, 7, 94));
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+ }
+
+ #app {
+  height: 100vh;
+  max-width: 1280px;
+  margin: 0 auto;
+
+  header {
+   background: theme("colors.dark")
+  }
+ }
+
+ video {
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  object-position: center;
+  background-attachment: fixed;
+  object-fit: cover;
+  height: 100vh;
+  z-index: -1;
+  filter: brightness(.40);
+ }
+
+ main {
+  border-radius: 3px 0 0;
+ }
+}
+
+@layer components {
+ .shadowText {
+  text-shadow: 1px 1px 10px rgb(0, 0, 0, .25);
+ }
+
+ .ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+ }
+
+ .track {
+  display: flex;
+  box-shadow: 0 0 10px rgba(0, 0, 0, .25);
+  border-radius: .25rem;
+  min-height: 64px;
+  height: 64px;
+  overflow: hidden;
+  max-height: 64px;
+  background: rgba(0, 0, 0, 0.645);
+  align-items: center;
+
+  img {
+   height: 100%;
+   width: auto;
+   aspect-ratio: 1 / 1;
+   object-fit: cover;
+  }
+
+  .content {
+   width: 100%;
+   padding: 0 theme("padding.2");
+   overflow: hidden;
+
+   .track-artists {
+    white-space: nowrap;
+    font-size: theme("fontSize.xs");
+    opacity: .5;
+    font-weight: bold;
+    overflow: hidden;
+    text-overflow: ellipsis;
+   }
+
+   .track-name {
+    width: 100%;
+    flex-grow: 1;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+
+    a {
+     white-space: nowrap;
+     text-overflow: ellipsis;
+     overflow: hidden;
+    }
+
+    .track-duration {
+     height: max-content;
+     opacity: .5;
+     font-size: theme("fontSize.xs");
+    }
+   }
+  }
+ }
+
+ a {
+
+  &:hover,
+  &:focus {
+   text-decoration: underline;
+  }
+ }
+}
