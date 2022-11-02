@@ -5,8 +5,7 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    formats: ["image/avif"],
-    domains: ["i.scdn.co"],
+    unoptimized: true,
   },
   sassOptions: {
     includePaths: [path.join(__dirname, "styles")],

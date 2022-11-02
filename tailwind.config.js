@@ -4,7 +4,7 @@ const defaultTheme = require("tailwindcss/defaultTheme");
 module.exports = {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx}",
-    "./src/layout/**/*.{js,ts,jsx,tsx}",
+    "./src/layouts/**/*.{js,ts,jsx,tsx}",
     "./src/components/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
@@ -13,7 +13,7 @@ module.exports = {
         sans: ["Nunito", ...defaultTheme.fontFamily.sans],
       },
       screens: {
-        xs: "300px",
+        xs: "320px",
       },
       colors: {
         spotify: "#1db954",
@@ -21,7 +21,7 @@ module.exports = {
         dark: "#000",
       },
       gridTemplateColumns: {
-        track: "max-content minmax(0, 1fr) 1fr max-content",
+        track: "max-content max-content minmax(0, 1fr) 1fr max-content",
       },
     },
   },
