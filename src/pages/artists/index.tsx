@@ -1,9 +1,9 @@
 import { GetServerSideProps } from "next";
 import { unstable_getServerSession } from "next-auth";
-import { authOptions } from "../../api/auth/[...nextauth]";
+import { authOptions } from "../api/auth/[...nextauth]";
 
-const Playlist = () => {
-  return <div>Playlist Info</div>;
+const Artist = () => {
+  return <div>Artist Info</div>;
 };
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
@@ -13,8 +13,8 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
     return { redirect: { destination: "/login", permanent: false } };
   }
 
-  let playlist = null;
-  return { props: { playlist } };
+  let artist = null;
+  return { props: { artist } };
 };
 
-export default Playlist;
+export default Artist;

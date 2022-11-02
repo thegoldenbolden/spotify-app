@@ -1,14 +1,20 @@
-import Infinite from '../../components/infinite';
-import Layout from '../../layouts';
-import { USER_LIBRARY } from '../../utils/spotify';
+import { GetServerSideProps } from "next";
+import { unstable_getServerSession } from "next-auth";
+import { authOptions } from "../api/auth/[...nextauth]";
 
-const UserLibrary = () => {
- return (
-  <Layout>
-   <h2 className="mb-2">Your Library</h2>
-   <Infinite paginate url={USER_LIBRARY} limit={10} display="flex" />
-  </Layout>
- );
+const Track = () => {
+  return <div>Track Info</div>;
 };
 
-export default UserLibrary;
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+  const session = await unstable_getServerSession(req, res, authOptions);
+
+  if (!session?.user) {
+    return { redirect: { destination: "/login", permanent: false } };
+  }
+
+  let track = null;
+  return { props: { track } };
+};
+
+export default Track;
