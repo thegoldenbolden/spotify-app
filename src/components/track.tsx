@@ -5,7 +5,7 @@ import convertMsToTime from '../utils/convertMsToTime';
 const Track = ({ track, rank }) => {
  return (
   <div className="track">
-   <span className="position">{rank}.</span>
+   {rank && <span className="position">{rank}.</span>}
    {track.album?.images?.[0] && (
     <Image
      src={track.album?.images?.[0].url}

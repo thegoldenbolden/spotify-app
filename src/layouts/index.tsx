@@ -1,37 +1,36 @@
-import { useEffect } from 'react';
-import { Home, User, Playlists, Logout, Tracks, Github } from '../utils/icons';
+import { useEffect, useState } from 'react';
+import { Home, User, Playlists, Logout, Tracks, Github, Favorites } from '../utils/icons';
 import Image from 'next/future/image';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { RiSearch2Fill, RiSearch2Line, RiSearchLine } from 'react-icons/ri';
 
 function Navigation() {
+ const router = useRouter();
+ const isActive = (path: string) => (router.pathname === path ? 'active' : '');
+
  return (
-  <nav id="nav-links" className="fixed bottom-0 left-0 flex flex-wrap gap-2 md:static">
+  <nav id="nav-links">
    <Link href="/">
-    <a>
+    <a className={isActive('/')}>
      <Home />
      <span>Home</span>
     </a>
    </Link>
-   <Link href="/following">
-    <a>
-     <User />
-     <span>Following</span>
+   <Link href="/top">
+    <a className={isActive('/following')}>
+     <Favorites />
+     <span>Favorites</span>
     </a>
    </Link>
-   <Link href="/tracks">
-    <a>
-     <Tracks />
+   <Link href="/library">
+    <a className={isActive('/playlists')}>
+     <Playlists />
      <span>Library</span>
     </a>
    </Link>
-   <Link href="/playlists">
-    <a>
-     <Playlists />
-     <span>Playlists</span>
-    </a>
-   </Link>
    <Link href="/logout">
-    <a>
+    <a className={isActive('/logout')}>
      <Logout />
      <span>Logout</span>
     </a>
@@ -40,7 +39,7 @@ function Navigation() {
  );
 }
 
-const Layout = ({ children }) => {
+function Header() {
  useEffect(() => {
   if (window == undefined) return;
   const header = document.getElementById('header');
@@ -48,16 +47,16 @@ const Layout = ({ children }) => {
   const handleScroll = () => {
    const { backgroundColor } = header.style;
    const isTransparent = backgroundColor === 'transparent';
-   if (header.offsetHeight < window.scrollY && !isTransparent) {
-    header.style.backgroundColor = 'rgba(0, 0, 0, .85)';
+
+   if (header.offsetHeight < window.scrollY && isTransparent) {
+    header.style.backgroundColor = 'rgba(0, 0, 0, 0.85)';
     header.style.boxShadow = '0, 0, 3px, black';
     return;
    }
 
-   if (header.offsetHeight >= window.scrollY && isTransparent) {
+   if (!isTransparent && header.offsetHeight >= window.scrollY) {
     header.style.backgroundColor = 'transparent';
     header.style.boxShadow = '';
-    return;
    }
   };
 
@@ -68,27 +67,39 @@ const Layout = ({ children }) => {
  }, []);
 
  return (
+  <header id="header">
+   <Image alt="Spotify logo" src="/images/spotify_green.png" height={24} width={96} className="object-contain" />
+   <Navigation />
+  </header>
+ );
+}
+
+function Footer() {
+ return (
+  <footer className="flex items-center justify-center w-full p-2 mb-16 md:mb-0">
+   Made by&nbsp;
+   <a className="inline text-spotify" target="_blank" rel="noreferrer noopener" href="https://jacobbolden.com">
+    Jacob Bolden
+   </a>
+   <a
+    className="inline-flex items-center gap-2 ml-2"
+    target="_blank"
+    href="https://github.com/thegoldenbolden/spotify-app"
+    rel="noreferrer noopener"
+   >
+    <Github className="mb-[.03em]" />
+    <span>Github</span>
+   </a>
+  </footer>
+ );
+}
+
+const Layout = ({ children }) => {
+ return (
   <div id="app">
-   <header id="header">
-    <Image alt="Spotify logo" src="/images/spotify_green.png" height={24} width={96} className="object-contain" />
-    <Navigation />
-   </header>
+   <Header />
    <main className="w-full h-full p-4 md:px-8">{children}</main>
-   <footer className="flex items-center justify-center w-full p-2 mb-16 md:mb-0">
-    Made by&nbsp;
-    <a className="inline text-spotify" target="_blank" rel="noreferrer noopener" href="https://jacobbolden.com">
-     Jacob Bolden
-    </a>
-    <a
-     className="inline-flex items-center gap-2 ml-2"
-     target="_blank"
-     href="https://github.com/thegoldenbolden/spotify-app"
-     rel="noreferrer noopener"
-    >
-     <Github className="mb-[.03em]" />
-     <span>Github</span>
-    </a>
-   </footer>
+   <Footer />
   </div>
  );
 };

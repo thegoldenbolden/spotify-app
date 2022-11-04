@@ -4,6 +4,16 @@ type Response = AxiosResponse<any, any>;
 type Axios = (url: string, config: AxiosRequestConfig<any>, data?: any) => Promise<Response | null>;
 type GetConfig = (config: AxiosRequestConfig & { token: string }) => AxiosRequestConfig<any>;
 
+export const getConfig: GetConfig = ({ token, method, params }) => ({
+ method: method ?? 'GET',
+ params: params ?? {},
+ timeout: 30000,
+ headers: {
+  'Content-Type': 'application/json',
+  Authorization: `Bearer ${token}`,
+ },
+});
+
 const AxiosWrapper: Axios = async (url, config = { method: 'GET' }, data) => {
  let response: Response;
 
@@ -37,15 +47,5 @@ const AxiosWrapper: Axios = async (url, config = { method: 'GET' }, data) => {
   return null;
  }
 };
-
-export const getConfig: GetConfig = ({ token, method, params }) => ({
- method,
- params,
- timeout: 30000,
- headers: {
-  'Content-Type': 'application/json',
-  Authorization: `Bearer ${token}`,
- },
-});
 
 export default AxiosWrapper;

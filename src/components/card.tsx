@@ -1,15 +1,15 @@
-import Image from 'next/image';
-import { CardProps } from '../types/spotify';
+import Image from 'next/future/image';
 import { RiHeart3Fill as Followers } from 'react-icons/ri';
+import { CardProps } from '../types';
 
 const Card = (props: CardProps) => {
  const { name, image, link, followers, id } = props;
  return (
-  <div className="flex flex-col items-center gap-4 p-2 rounded-md card" key={id}>
+  <div className="card" key={id}>
    {image && (
     <Image
      src={image.url}
-     alt={`${name} Image`}
+     alt={`${name} Avatar`}
      height={96}
      width={96}
      className="object-cover rounded-full thumbnail drop-shadow-md"

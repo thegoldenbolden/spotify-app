@@ -6,16 +6,17 @@
 @layer base {
  body {
   font-family: theme("fontFamily.sans");
-  // background-attachment: fixed;
-  background-color: theme("colors.zinc.900");
-  color: theme("colors.light");
-  // background-image: linear-gradient(to bottom, theme("colors.dark"), theme("colors.dark"), rgb(47, 52, 49));
-  // background-size: 100% 100%;
-  // background-repeat: no-repeat;
+  color: theme("colors.dark");
+  background: theme("colors.stone.100");
   word-break: break-all;
 
   @media screen and (min-width: theme("screens.xs")) {
    word-break: normal;
+  }
+
+  @media (prefers-color-scheme: dark) {
+   background: theme("colors.stone.900");
+   color: theme("colors.light");
   }
  }
 
@@ -53,6 +54,22 @@
 }
 
 @layer components {
+ .custom-grid {
+  @apply grid gap-2 grid-cols-1;
+
+  @media screen and (min-width: theme("screens.xs")) {
+   @apply gap-2 grid-cols-2;
+  }
+
+  @media screen and (min-width: theme("screens.sm")) {
+   @apply grid-cols-3;
+  }
+
+  @media screen and (min-width: theme("screens.2xl")) {
+   @apply grid-cols-6;
+  }
+ }
+
  .thumbnail {
   width: 64px;
   height: 64px;
@@ -68,10 +85,7 @@
    height: 144px;
   }
 
-  @media screen and (min-width: theme("screens.xl")) {
-   width: 192px;
-   height: 192px;
-  }
+  @media screen and (min-width: theme("screens.xl")) {}
 
   &.full {
    width: 128px;
@@ -83,11 +97,12 @@
  .btn-secondary {
   border-radius: theme("borderRadius.DEFAULT");
   background-color: theme("colors.spotify");
+  border-width: theme("borderWidth.2");
   padding: theme("padding.2");
  }
 
  .btn-active {
-  filter: brightness(1.25);
+  border-bottom: 3px solid theme("colors.spotify");
  }
 
  .ellipsis {
@@ -99,9 +114,13 @@
  .track {
   display: flex;
   flex-direction: column;
-  @apply p-2;
-  @apply gap-2;
-  @apply ellipsis;
+  @apply p-2 gap-2 ellipsis;
+
+  &:hover,
+  &:focus-within {
+   transition: .2s background ease-in-out;
+   background: theme("colors.secondary")
+  }
 
   .position,
   .album,
@@ -160,17 +179,28 @@
  }
 
  .card {
-  img {
-   &:before {
-    content: "We're sorry, the image below is broken :(";
-    display: block;
-    margin-bottom: 10px;
-   }
+  @apply flex flex-col items-center gap-4 px-4 py-12 rounded-md;
 
-   &:after {
-    content: "(url: "attr(src) ")";
-    display: block;
-    font-size: 12px;
+  background: rgba(0, 0, 0, .25);
+
+  img {
+   color: transparent;
+
+   &::after {
+    background: black;
+    border-radius: theme("borderRadius.full");
+    z-index: 5;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    left: 0;
+    top: 0;
+    width: 100%;
+    color: white;
+    text-align: center;
+    content: 'No Image';
    }
   }
  }
@@ -186,7 +216,7 @@
  padding: theme("padding.2") 0;
  z-index: 10;
  background: transparent;
- transition: .5s ease-in-out all;
+ transition: .1s ease-in-out all;
 
  img {
   height: auto;
@@ -195,8 +225,7 @@
 
  nav {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: theme("gap.2");
+  grid-template-columns: repeat(4, 1fr);
   justify-content: space-evenly;
   background: theme("colors.dark");
   box-shadow: 0 0 3px black;
@@ -214,26 +243,24 @@
    align-items: center;
    text-align: center;
    border-bottom: 3px solid transparent;
+   border-top: 3px solid transparent;
 
    svg {
     height: 1.5em;
     width: 1.5em;
    }
 
+   &.active {
+    color: theme("colors.spotify");
+   }
+
    &:hover,
    &:focus {
     text-decoration: none;
     color: theme("colors.spotify");
-    border-bottom-color: transparent;
 
     span {
      text-decoration: none;
-    }
-
-    @media screen and (min-width: theme("screens.xs")) {
-     color: theme("colors.light");
-     border-bottom-color: theme("colors.spotify");
-     background: theme("colors.spotify");
     }
    }
 
@@ -257,14 +284,10 @@
   nav {
    position: static;
    width: max-content;
-   gap: 0;
+   gap: theme("gap.4");
    padding: 0;
    background: transparent;
    box-shadow: none;
-
-   a {
-    padding: theme("padding.2") theme("padding.4");
-   }
   }
  }
 }

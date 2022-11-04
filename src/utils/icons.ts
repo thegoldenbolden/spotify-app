@@ -6,4 +6,5 @@ export {
  RiMusicLine as Tracks,
  RiGithubFill as Github,
  RiUser6Line as User,
+ RiHeart3Line as Favorites,
 } from 'react-icons/ri';
